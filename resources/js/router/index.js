@@ -3,9 +3,9 @@ const router = createRouter({
     history: createWebHistory(),
     routes: [
         {
-            path: '/home',
-            name: 'home',
-            component: () => import('../pages/Home.vue')
+            path: '/register',
+            name: 'Register',
+            component: () => import('../pages/Register.vue')
         },
         {
             path: '/admin',

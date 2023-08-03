@@ -1,7 +1,8 @@
 import './bootstrap';
+import './plugins/axios';
 import router from './router';
 import { createApp } from 'vue';
-import Home from './pages/Home.vue';
+import Home from './layouts/Home.vue';
 
 const app = createApp({});
 
