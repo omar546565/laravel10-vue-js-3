@@ -5,6 +5,8 @@ namespace App\Http\Controllers\api;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Mail;
 
 class AuthController extends Controller
 {
@@ -63,6 +65,55 @@ class AuthController extends Controller
               'message' => 'Tokens Revoked'
          ]);
     }
+ public function ResetPassword(Request $request){
+    $validator = Validator::make($request->all(), [
+        'email' => 'required|email',
+    ]);
 
+    if ($validator->fails()) {
+        return response()->json([
+
+            'message' => 'Invalid email format',
+        ] );
+    }
+ $user = User::where('email', $request->email)->first();
+
+    if (!$user) {
+        return response()->json([
+            'message' => 'We cant find a user with that e-mail address.',
+        ]);
+    }
+
+    $token = $user->createToken('auth_token')->plainTextToken;
+
+    $to_email = $request->email;
+    $subject = 'Reset Password Notification';
+    $from_email = 'app@gmail.com';
+    $name = $user->name;
+
+    $data = array('name'=>$name, 'token' => $token);
+    Mail::send('emails.mail',$data,function($message) use ($to_email, $subject, $from_email){
+        $message->to($to_email)->subject($subject);
+        $message->from($from_email);
+    });
+
+    return response()->json([
+        'status' => 200,
+        'message' => 'email sent'
+   ]);
+ }
+
+ public function ResetPass(Request $request){
+    $id= $request->user()->id;
+
+    $user = User::find($id)->update([
+        'password' => bcrypt($request->password)
+    ]);
+    return response()->json([
+        'status' => 200,
+        'message' => 'password change success'
+    ]);
+
+ }
 
 }

@@ -80,7 +80,7 @@ const Login=()=>{
                   </form>
                   <hr />
                   <div class="text-center">
-                    <a class="small" href="forgot-password.html"
+                    <a class="small" href="/forgot-password"
                       >Forgot Password?</a
                     >
                   </div>
