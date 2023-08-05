@@ -18,6 +18,8 @@ const logout = () => {
     }).catch((err)=>{
         console.log(err)
     })
+    localStorage.removeItem('token')
+        window.location.href = '/login'
 }
 
 
