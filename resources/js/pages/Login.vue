@@ -1,27 +1,31 @@
 <script setup>
-import { ref } from 'vue'
+import { ref } from "vue";
 
-const email = ref('')
-const password = ref('')
+const email = ref("");
+const password = ref("");
 
-const Login=()=>{
-  if(email.value === '' || password.value === ''){
-    alert('Please fill all fields')
-    }else{
-        axios.post('/login',{
-            email:email.value,
-            password:password.value
-        }).then((res)=>{
-
-                 localStorage.setItem('token',res.data.access_token)
-            window.location.href = '/admin'
-
-
-        }).catch((err)=>{
-            console.log(err)
-        })
-    }
-}
+const Login = () => {
+  if (email.value === "" || password.value === "") {
+    alert("Please fill all fields");
+  } else {
+    axios
+      .post("/login", {
+        email: email.value,
+        password: password.value,
+      })
+      .then((res) => {
+        if (res.data.status === 200) {
+          localStorage.setItem("token", res.data.access_token);
+          window.location.href = "/admin";
+        } else {
+          alert(res.data.message);
+        }
+      })
+      .catch((err) => {
+        alert(err.response.data.message);
+      });
+  }
+};
 </script>
 <template>
   <div class="container">
@@ -85,10 +89,7 @@ const Login=()=>{
                     >
                   </div>
                   <div class="text-center">
-                    <router-link
-                      class="small"
-                      to="/register"
-                    >
+                    <router-link class="small" to="/register">
                       <a href="#">Create an Account</a>
                     </router-link>
                   </div>

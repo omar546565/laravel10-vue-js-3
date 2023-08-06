@@ -34,6 +34,11 @@ const router = createRouter({
             component: () => import('../pages/Admin.vue')
         },
         {
+            path: '/profile',
+            name: 'Profile',
+            component: () => import('../pages/Profile.vue')
+        },
+        {
             path: '/:pathMatch(.*)*',
 
             component: () => import('../pages/notFound.vue')
