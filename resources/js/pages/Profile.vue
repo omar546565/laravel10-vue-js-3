@@ -1,5 +1,6 @@
 <script setup>
 import { ref } from 'vue'
+import   photoComponent from  '@/components/photoComponent.vue'
 
 const name = ref('')
 const email = ref('')
@@ -25,7 +26,9 @@ const UserUpdate = () => {
     })
 }
 }
-
+const submitFile = (file) => {
+     alert(file);
+}
 </script>
 <template>
      <div class="container">
@@ -71,6 +74,17 @@ const UserUpdate = () => {
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="row">
+        <div class="col-12">
+        <div class="card pb-5">
+         <photoComponent
+         class="m-auto"
+         @isEmit="submitFile($event)"
+           />
+
+        </div>
+        </div>
         </div>
     </div>
 </div>
