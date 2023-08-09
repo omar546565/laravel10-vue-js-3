@@ -2,8 +2,8 @@
 import { ref } from 'vue'
 import   photoComponent from  '@/components/photoComponent.vue'
 
-const name = ref('')
-const email = ref('')
+const result  = ref(false)
+
 const props = defineProps([
     "user"]
 )
@@ -27,7 +27,24 @@ const UserUpdate = () => {
 }
 }
 const submitFile = (file) => {
-     alert(file);
+     result.value = false
+    let formData = new FormData();
+    formData.append('file', file);
+    formData.append('id', props.user.id);
+    axios.post('profile-upload', formData, {
+        headers: {
+            'Content-Type': 'multipart/form-data'
+        }
+    }).then((res) => {
+
+        props.user.photo = res.data.path
+        result.value = true
+        alert(res.data.message)
+    }).catch((err) => {
+        result.value = false
+        alert(err.response.data.message)
+    })
+
 }
 </script>
 <template>
@@ -81,6 +98,7 @@ const submitFile = (file) => {
          <photoComponent
          class="m-auto"
          @isEmit="submitFile($event)"
+         :result="result"
            />
 
         </div>

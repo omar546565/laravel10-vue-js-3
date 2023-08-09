@@ -1,8 +1,10 @@
 <script setup>
 import { ref } from "vue";
 import { Cropper } from "vue-advanced-cropper";
+import { watchEffect } from "@vue/runtime-core";
 import "vue-advanced-cropper/dist/style.css";
 const emit = defineEmits(["isEmit"]);
+const props = defineProps(["result"]);
 
 const img = ref("");
 const image = ref("");
@@ -37,6 +39,12 @@ const submitFile = () => {
   var file = new File([u8arr], "filename.png", { type: mime });
     emit("isEmit", file);
 };
+watchEffect(() => {
+    if (props.result) {
+        image.value = '';
+        img.value = '';
+    }
+});
 </script>
 <template>
   <div style="width:350px:margin-top:100px">

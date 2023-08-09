@@ -147,4 +147,21 @@ class AuthController extends Controller
             'message' => 'user change success'
         ]);
     }
+
+    public function profileUpload(Request $request){
+        $user = User::find($request->id);
+        $file = $request->file('file');
+        $filename =  time() . '.' . $file->getClientOriginalExtension();
+        $file->move('images/user/', $filename);
+
+        $user->update([
+            'photo' => $filename,
+        ]);
+
+        return response()->json([
+            'status' => 200,
+            'message' => 'success image upload',
+            'path' => $filename
+        ]);
+    }
 }
