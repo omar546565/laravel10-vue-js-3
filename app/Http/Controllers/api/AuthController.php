@@ -4,6 +4,7 @@ namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\UserPhoto;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Mail;
@@ -70,7 +71,8 @@ class AuthController extends Controller
     }
     public function user(Request $request)
     {
-        $user = $request->user();
+        $id = $request->user()->id;
+        $user = User::with('photos')->find($id);
         return response()->json([
             'status' => 200,
             'user' => $user
@@ -158,10 +160,36 @@ class AuthController extends Controller
             'photo' => $filename,
         ]);
 
+        UserPhoto::create([
+            'user_id' => $request->id,
+            'name' => $filename,
+        ]);
+
         return response()->json([
             'status' => 200,
             'message' => 'success image upload',
             'path' => $filename
+        ]);
+    }
+
+    public function  DeletePhoto(Request $request){
+        $photo = UserPhoto::find($request->id);
+        $photo->delete();
+        return response()->json([
+            'status' => 200,
+            'message' => 'success image delete',
+        ]);
+    }
+    public function  SelectPhoto(Request $request){
+        $photo = UserPhoto::find($request->id);
+
+        $user = User::find($request->user()->id);
+        $user->update([
+            'photo' => $photo->name,
+        ]);
+        return response()->json([
+            'status' => 200,
+            'message' => 'success image select',
         ]);
     }
 }

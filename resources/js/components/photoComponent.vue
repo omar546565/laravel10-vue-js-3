@@ -49,14 +49,17 @@ watchEffect(() => {
 <template>
   <div style="width:350px:margin-top:100px">
     <button class="btn btn-primary" @click="submitFile">save</button>
-    <img :src="image" style="width: 200" />
+    <div style="width: 400px" >
+    <img :src="image" style="width: 200px" />
     <cropper
+
       class="cropper"
       :src="img"
       :stencil-props="{ aspectRatio: 10 / 10 }"
       @change="change"
     >
     </cropper>
+</div>
     <div class="input-group">
       <input
         type="file"

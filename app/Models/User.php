@@ -19,6 +19,10 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
+        'father_name',
+        'gender',
+        'date_of_birth',
+        'mobile',
         'photo',
         'email',
         'password',
@@ -43,4 +47,9 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function photos()
+    {
+        return $this->hasMany(UserPhoto::class);
+    }
 }

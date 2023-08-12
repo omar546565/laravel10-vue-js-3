@@ -28,4 +28,7 @@ Route::group(['middleware'=>['auth:sanctum']], function(){
     Route::post('/reset-pass', [AuthController::class, 'ResetPass']);
     Route::post('/user-update', [AuthController::class, 'UserUpdate']);
     Route::post('/profile-upload', [AuthController::class, 'profileUpload']);
+    Route::post('/delete-photo', [AuthController::class, 'DeletePhoto']);
+    Route::post('/select-photo', [AuthController::class, 'SelectPhoto']);
+
 });
