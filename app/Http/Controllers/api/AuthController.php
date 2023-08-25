@@ -142,6 +142,9 @@ class AuthController extends Controller
 
         $user = User::find($id)->update([
             'name' => $request->name,
+            'father_name' => $request->father_name,
+            'date_of_birth' => $request->date_of_birth,
+            'mobile' => $request->mobile,
             'email' => $request->email,
         ]);
         return response()->json([

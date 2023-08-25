@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from 'vue'
 import   photoComponent from  '@/components/photoComponent.vue'
+import {toast} from "vue3-toastify"
 
 const result  = ref(false)
 
@@ -8,21 +9,40 @@ const props = defineProps([
     "user"]
 )
 
+const notify = (message) => {
+    toast.success(message,
+    {
+        autoClose: 3000,
+        position: toast.POSITION.TOP_CENTER
+    }
+    );
+}
+const notifyError = (message) => {
+    toast.error(message,
+    {
+        autoClose: 3000,
+        position: toast.POSITION.TOP_CENTER
+    }
+    );
+}
 
 const UserUpdate = () => {
     if (props.user.name === '' || props.user.email === '' ) {
-           alert('Please fill all fields');
+        notifyError('Please fill all fields');
        } else {
     axios.post('/user-update', {
         name: props.user.name,
+        father_name: props.user.father_name,
+        date_of_birth: props.user.date_of_birth,
+        mobile: props.user.mobile,
         email: props.user.email,
 
     }).then((res) => {
 
-       alert(res.data.message)
+        notify(res.data.message)
     }).catch((err) => {
 
-        alert(err.response.data.message)
+        notifyError(err.response.data.message)
     })
 }
 }
@@ -30,20 +50,20 @@ const deletePhoto=(id)=> {
     axios.post('/delete-photo', {
         id: id
     }).then((res) => {
-        alert(res.data.message)
+        notify(res.data.message)
         window.location.reload()
     }).catch((err) => {
-        alert(err.response.data.message)
+        notifyError(err.response.data.message)
     })
 }
 const selectPhoto=(id)=> {
     axios.post('/select-photo', {
         id: id
     }).then((res) => {
-        alert(res.data.message)
+        notify(res.data.message)
         window.location.reload()
     }).catch((err) => {
-        alert(err.response.data.message)
+        notifyError(err.response.data.message)
     })
 }
 const submitFile = (file) => {
@@ -59,10 +79,10 @@ const submitFile = (file) => {
 
         props.user.photo = res.data.path
         result.value = true
-        alert(res.data.message)
+        notify(res.data.message)
     }).catch((err) => {
         result.value = false
-        alert(err.response.data.message)
+        notifyError(err.response.data.message)
     })
 
 }
@@ -85,6 +105,21 @@ const submitFile = (file) => {
                             <div class="col-sm-6 mb-3 mb-sm-0">
                                 <input type="text" v-model="props.user.name" class="form-control form-control-user" id="exampleName"
                                     placeholder="  Name">
+                            </div>
+                            <div class="col-sm-6 mb-3 mb-sm-0">
+                                <input type="text" v-model="props.user.father_name" class="form-control form-control-user" id="father_name"
+                                    placeholder="  father_name">
+                            </div>
+
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-6 mb-3 mb-sm-0">
+                                <input type="number" v-model="props.user.date_of_birth" class="form-control form-control-user" id="date_of_birth"
+                                    placeholder="  date_of_birth">
+                            </div>
+                            <div class="col-sm-6 mb-3 mb-sm-0">
+                                <input type="number" v-model="props.user.mobile" class="form-control form-control-user" id="mobile"
+                                    placeholder="  mobile">
                             </div>
 
                         </div>
