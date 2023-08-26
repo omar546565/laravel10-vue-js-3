@@ -61,9 +61,11 @@ const props = defineProps([
 
 <!-- Nav Item - Charts -->
 <li class="nav-item">
-    <a class="nav-link" href="charts.html">
-        <i class="fas fa-fw fa-chart-area"></i>
-        <span>Charts</span></a>
+
+        <RouterLink to="/users" class="nav-link">
+            <i class="fas fa-fw fa-user"></i>
+            <span>Users</span>
+        </RouterLink>
 </li>
 
 

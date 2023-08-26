@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\api\AuthController;
+use App\Http\Controllers\api\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -30,5 +31,7 @@ Route::group(['middleware'=>['auth:sanctum']], function(){
     Route::post('/profile-upload', [AuthController::class, 'profileUpload']);
     Route::post('/delete-photo', [AuthController::class, 'DeletePhoto']);
     Route::post('/select-photo', [AuthController::class, 'SelectPhoto']);
+
+    Route::get('/index-users', [UserController::class, 'indexUsers']);
 
 });
