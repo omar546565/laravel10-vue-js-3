@@ -33,5 +33,6 @@ Route::group(['middleware'=>['auth:sanctum']], function(){
     Route::post('/select-photo', [AuthController::class, 'SelectPhoto']);
 
     Route::get('/index-users', [UserController::class, 'indexUsers']);
+    Route::post('/create-user', [UserController::class, 'store']);
 
 });

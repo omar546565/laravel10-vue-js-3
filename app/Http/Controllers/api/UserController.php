@@ -17,4 +17,38 @@ class UserController extends Controller
             'users' => $users
         ]);
     }
+    public function store(Request $request)
+    {
+       if($request->id){
+        User::find($request->id)->update([
+            'name' => $request->name,
+            'father_name' => $request->father_name,
+            'name' => $request->name,
+            'gender' => $request->gender,
+            'date_of_birth' => $request->date_of_birth,
+            'mobile' => $request->mobile,
+            'email' => $request->email,
+        ]);
+        return response()->json([
+            'message' => 'success update user',
+
+        ]);
+       }
+        User::create([
+         'name' => $request->name,
+         'father_name' => $request->father_name,
+         'name' => $request->name,
+         'gender' => $request->gender,
+         'date_of_birth' => $request->date_of_birth,
+         'mobile' => $request->mobile,
+         'email' => $request->email,
+          'password' => bcrypt($request->password),
+
+        ]);
+
+        return response()->json([
+            'message' => 'success create user',
+
+        ]);
+    }
 }
