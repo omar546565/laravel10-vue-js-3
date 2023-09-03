@@ -8,18 +8,32 @@ onMounted(async () => {
 const props = defineProps([
     "toggled"]
 )
-
+const filteredSubPages=(pages,per)=>{
+    return pages.filter((page) => {
+        return  chickPermission(page.id,per)}
+        )
+}
+const chickPermission=(page_id,per)=>{
+    let permission = perUser.value.find(
+        permission => permission.page_id === page_id
+        && permission[per] === 1
+        );
+        if(permission){
+            return true;
+        }else{
+            return false;
+        }
+}
 const pages = ref([]);
 const getPages = async () => {
    await  axios.get(`get-pages`).then((res) => {
         pages.value = res.data.pages;
-        notify(res.data.message);
+        // notify(res.data.message);
     });
 }
 const perUser = ref(JSON.parse(localStorage.getItem("perUser")));
 watchEffect(() => {
     if ( perUser.value == null) {
-
         window.location.reload();
     }
 });
@@ -55,7 +69,7 @@ watchEffect(() => {
 
 <!-- Nav Item - Pages Collapse Menu -->
 <li v-for="page in pages" :key="page.id" class="nav-item">
-    <a v-if="page.pages.length>0" class="nav-link collapsed"
+    <a v-if="filteredSubPages(page.pages,'read').length > 0 && chickPermission(page.id,'read')" class="nav-link collapsed"
     href="#"
     data-toggle="collapse"
     :data-target="`#collapseTwo${page.id}`"
@@ -69,17 +83,17 @@ watchEffect(() => {
             <h6 class="collapse-header">{{ page.page }}:</h6>
 
             <RouterLink
-            v-for="sub in page.pages"
+            v-for="sub in filteredSubPages(page.pages,'read')"
             :key="sub.id"
             :to="sub.path"
-             class="collapse">
+             class="collapse-item">
             <i :class="sub.icon"></i>
             <span>{{ sub.page }}</span>
         </RouterLink>
         </div>
     </div>
     <RouterLink
-     v-if="page.path != '#'"
+     v-if="page.path != '#' && chickPermission(page.id,'read')"
      :to="page.path"
      class="nav-link">
             <i :class="page.icon"></i>

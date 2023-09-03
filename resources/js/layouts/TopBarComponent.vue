@@ -17,6 +17,7 @@ const logout = () => {
     .get("/logout")
     .then((res) => {
       localStorage.removeItem("token");
+      localStorage.removeItem("perUser");
       window.location.href = "/login";
     })
     .catch((err) => {

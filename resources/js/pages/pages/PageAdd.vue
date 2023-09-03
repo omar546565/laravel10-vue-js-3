@@ -29,8 +29,7 @@ const item = ref({})
 
 
 const goBack = () => {
-    page.value = ''
-
+ item.value = {}
     emit('goBack',false)
 }
 const createPage = () => {

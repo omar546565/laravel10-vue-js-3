@@ -29,7 +29,7 @@ const item = ref({})
 
 
 const goBack = () => {
-    role.value = ''
+    item.value = {}
 
     emit('goBack',false)
 }
