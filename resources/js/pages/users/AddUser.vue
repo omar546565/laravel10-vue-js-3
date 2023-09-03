@@ -1,11 +1,14 @@
 <script setup>
 import { ref } from 'vue'
 import { toast } from "vue3-toastify";
-import { watchEffect } from '@vue/runtime-core';
+import {onMounted, watchEffect } from '@vue/runtime-core';
+
 
 const emit = defineEmits(['goBack']);
 const props = defineProps(["user"]);
-
+onMounted ( async ()=>{
+   await getRoles();
+})
 
 
 const notify = (message) => {
@@ -31,6 +34,15 @@ const gender = ref('')
 const mobile = ref('')
 const password = ref('')
 const password_confirmation = ref('')
+const role_id = ref('')
+
+const Roles = ref([])
+
+const getRoles = () => {
+    axios.get('/get-roles').then((res) => {
+        Roles.value = res.data.roles
+    })
+}
 
 const genders =ref([
     {type:'ذكر'},
@@ -68,6 +80,7 @@ const createUser = () => {
         date_of_birth : date_of_birth.value,
         mobile : mobile.value,
         password: password.value,
+        role_id: role_id.value,
         password_confirmation: password_confirmation.value
     }).then((res) => {
         notify(res.data.message)
@@ -82,6 +95,7 @@ const createUser = () => {
         mobile.value=''
         password.value = ''
         password_confirmation.value = ''
+        role_id.value = ''
 
     }).catch((err) => {
         notifyError(err.response.data.message)
@@ -97,6 +111,7 @@ watchEffect(()=>{
     date_of_birth.value =props.user.date_of_birth
     gender.value =props.user.gender
     mobile.value =props.user.mobile
+    role_id.value = props.user.role_id
   }
 });
 </script>
@@ -135,6 +150,17 @@ watchEffect(()=>{
                                     {{gender.type}} </option>
                                </select>
                             </div>
+                            <div class="col-sm-3 mb-3 mb-sm-0">
+                               <select class="form-control" v-model="role_id">
+                                <option v-for="Role in Roles" :key="Role.id" :value="Role.id">
+                                    {{Role.name_role}} </option>
+                               </select>
+                            </div>
+
+
+                        </div>
+                        <div class="form-group row">
+
                             <div class="col-sm-3 mb-3 mb-sm-0">
                                 <input type="number" v-model="date_of_birth" class="form-control form-control-user" id="date_of_birth"
                                     placeholder="  date_of_birth">

@@ -11,7 +11,7 @@ class UserController extends Controller
 
     public function indexUsers()
     {
-        $users = User::paginate(10);
+        $users = User::with('role')->paginate(10);
         return response()->json([
             'message' => 'success get users',
             'users' => $users
@@ -28,6 +28,7 @@ class UserController extends Controller
             'date_of_birth' => $request->date_of_birth,
             'mobile' => $request->mobile,
             'email' => $request->email,
+            'role_id' => $request->role_id,
         ]);
         return response()->json([
             'message' => 'success update user',
@@ -42,6 +43,7 @@ class UserController extends Controller
          'date_of_birth' => $request->date_of_birth,
          'mobile' => $request->mobile,
          'email' => $request->email,
+         'role_id' => $request->role_id,
           'password' => bcrypt($request->password),
 
         ]);

@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\api\AuthController;
+use App\Http\Controllers\api\PageController;
+use App\Http\Controllers\api\RoleController;
 use App\Http\Controllers\api\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -34,5 +36,12 @@ Route::group(['middleware'=>['auth:sanctum']], function(){
 
     Route::get('/index-users', [UserController::class, 'indexUsers']);
     Route::post('/create-user', [UserController::class, 'store']);
+
+
+    Route::get('/get-pages', [PageController::class, 'getPages']);
+    Route::post('/create-page', [PageController::class, 'store']);
+
+    Route::get('/get-roles', [RoleController::class, 'getRoles']);
+    Route::post('/create-role', [RoleController::class, 'store']);
 
 });
