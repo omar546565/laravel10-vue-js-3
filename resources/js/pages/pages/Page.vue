@@ -44,6 +44,18 @@ const goBack = (event) => {
 onMounted(() => {
     getPages();
 });
+const perUser = ref(JSON.parse(localStorage.getItem("perUser")));
+const chickPermission=(page,per)=>{
+    let permission = perUser.value.find(
+        permission => permission.page.page === page
+        && permission[per] === 1
+        );
+        if(permission){
+            return true;
+        }else{
+            return false;
+        }
+}
 </script>
 <template>
   <div>
@@ -63,7 +75,8 @@ onMounted(() => {
           <table class="table table-bordered text-center" width="100%">
             <thead>
               <tr>
-                <th>Actions</th>
+                <th   v-if="chickPermission('pages','delete') || chickPermission('pages','edit')"
+                >Actions</th>
                 <th>id</th>
                 <th>name</th>
 
@@ -73,12 +86,17 @@ onMounted(() => {
             <tfoot></tfoot>
             <tbody>
               <tr v-for="page in Pages" :key="page.id">
-                <td>
-                  <button hidden class="btn btn-danger btn-circle btn-sm m-1">
+                <td  v-if="chickPermission('pages','delete') || chickPermission('pages','edit')" >
+                  <button
+                    v-if="chickPermission('pages','delete')"
+
+                   class="btn btn-danger btn-circle btn-sm m-1">
                     <i class="fas fa-trash"></i>
                   </button>
 
-                  <button @click="pageEdit(page)" class="btn btn-info btn-circle btn-sm">
+                  <button @click="pageEdit(page)"
+                    v-if="chickPermission('pages','edit')"
+                  class="btn btn-info btn-circle btn-sm">
                     <i class="fas fa-edit"></i>
                   </button>
                 </td>

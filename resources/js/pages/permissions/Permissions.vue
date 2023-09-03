@@ -73,6 +73,13 @@ const updatePermission = (page_id,role_id,permission,event)=>{
         permission:permission,
         event:event
     }).then((res) => {
+        if(res.data.status==401){
+            toast.error(res.data.message, {
+                autoClose: 3000,
+                position: toast.POSITION.TOP_CENTER,
+              });
+              return false;
+        }
         notify(res.data.message);
     }).catch((err) => {
         notifyError(err.response.data.message);
@@ -84,6 +91,20 @@ onMounted( async () => {
     await getPages();
    await getPermissions();
 });
+
+const perUser = ref(JSON.parse(localStorage.getItem("perUser")));
+const chickPermission=(page,per)=>{
+    let permission = perUser.value.find(
+        permission => permission.page.page === page
+        && permission[per] === 1
+        );
+        if(permission){
+            return true;
+        }else{
+            return false;
+        }
+}
+
 </script>
 <template>
   <div>
@@ -122,28 +143,37 @@ onMounted( async () => {
                 </td>
                 <td>
                 <input type="checkbox"
+                :disabled="!chickPermission('permissions','update') "
                  :checked="getPermission(page.id,role_id,'read')"
                  @change="updatePermission(page.id,role_id,'read',$event.target.checked)"
                   >
                 </td>
                 <td>
-                <input type="checkbox" :checked="getPermission(page.id,role_id,'edit')"
+                <input type="checkbox"
+                :disabled="!chickPermission('permissions','update') "
+                :checked="getPermission(page.id,role_id,'edit')"
                 @change="updatePermission(page.id,role_id,'edit',$event.target.checked)"
                  >
                 </td>
                 <td>
-                <input type="checkbox" :checked="getPermission(page.id,role_id,'create')"
+                <input type="checkbox"
+                :disabled="!chickPermission('permissions','update') "
+                :checked="getPermission(page.id,role_id,'create')"
                 @change="updatePermission(page.id,role_id,'create',$event.target.checked)"
                  >
 
                 </td>
                 <td>
-                <input type="checkbox" :checked="getPermission(page.id,role_id,'update')"
+                <input type="checkbox"
+                :disabled="!chickPermission('permissions','update') "
+                 :checked="getPermission(page.id,role_id,'update')"
                 @change="updatePermission(page.id,role_id,'update',$event.target.checked)"
                  >
                 </td>
                 <td>
-                <input type="checkbox" :checked="getPermission(page.id,role_id,'delete')"
+                <input type="checkbox"
+                :disabled="!chickPermission('permissions','update') "
+                 :checked="getPermission(page.id,role_id,'delete')"
                 @change="updatePermission(page.id,role_id,'delete',$event.target.checked)"
                  >
                 </td>

@@ -44,6 +44,19 @@ const goBack = (event) => {
 onMounted(() => {
     getRoles();
 });
+const perUser = ref(JSON.parse(localStorage.getItem("perUser")));
+const chickPermission=(page,per)=>{
+    let permission = perUser.value.find(
+        permission => permission.page.page === page
+        && permission[per] === 1
+        );
+        if(permission){
+            return true;
+        }else{
+            return false;
+        }
+}
+
 </script>
 <template>
   <div>
@@ -52,6 +65,7 @@ onMounted(() => {
       <div class="card-header">
         <h4 class="card-title" > role table</h4>
         <button
+         v-if="chickPermission('roles','create')"
           class="btn btn-primary btn-circle btn-sm float-end"
           @click="addRole"
         >
@@ -63,7 +77,9 @@ onMounted(() => {
           <table class="table table-bordered text-center" width="100%">
             <thead>
               <tr>
-                <th>Actions</th>
+                <th
+                v-if="chickPermission('roles','delete') || chickPermission('roles','edit')"
+                >Actions</th>
                 <th>id</th>
                 <th>name</th>
 
@@ -73,12 +89,17 @@ onMounted(() => {
             <tfoot></tfoot>
             <tbody>
               <tr v-for="role in Roles" :key="role.id">
-                <td>
-                  <button hidden class="btn btn-danger btn-circle btn-sm m-1">
+                <td  v-if="chickPermission('roles','delete') || chickPermission('roles','edit')" >
+                  <button
+                  v-if="chickPermission('roles','delete')"
+                   class="btn btn-danger btn-circle btn-sm m-1">
                     <i class="fas fa-trash"></i>
                   </button>
 
-                  <button @click="roleEdit(role)" class="btn btn-info btn-circle btn-sm">
+                  <button
+                  v-if="chickPermission('roles','edit')"
+                   @click="roleEdit(role)"
+                  class="btn btn-info btn-circle btn-sm">
                     <i class="fas fa-edit"></i>
                   </button>
                 </td>
