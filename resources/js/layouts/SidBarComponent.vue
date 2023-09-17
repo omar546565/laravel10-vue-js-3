@@ -68,7 +68,7 @@ watchEffect(() => {
 </div>
 
 <!-- Nav Item - Pages Collapse Menu -->
-<li v-for="page in pages" :key="page.id" class="nav-item">
+<li v-for="page in pages" :key="page.id" class="nav-item shadow-lg   bg-body-tertiary rounded">
     <a v-if="filteredSubPages(page.pages,'read').length > 0 && chickPermission(page.id,'read')" class="nav-link collapsed"
     href="#"
     data-toggle="collapse"
@@ -76,11 +76,11 @@ watchEffect(() => {
         aria-expanded="true"
          :aria-controls="`collapseTwo${page.id}`">
         <i :class="page.icon"></i>
-        <span>{{ page.page }}</span>
+        <span>{{ $t(page.page) }}</span>
     </a>
     <div :id="`collapseTwo${page.id}`" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
         <div class="bg-white py-2 collapse-inner rounded">
-            <h6 class="collapse-header">{{ page.page }}:</h6>
+            <h6 class="collapse-header">{{ $t(page.page) }}:</h6>
 
             <RouterLink
             v-for="sub in filteredSubPages(page.pages,'read')"
@@ -88,16 +88,16 @@ watchEffect(() => {
             :to="sub.path"
              class="collapse-item">
             <i :class="sub.icon"></i>
-            <span>{{ sub.page }}</span>
+            <span class="m-2" > {{ $t(sub.page) }}</span>
         </RouterLink>
         </div>
     </div>
     <RouterLink
-     v-if="page.path != '#' && chickPermission(page.id,'read')"
+     v-if="page.path != '#' && chickPermission(page.id,'read') && page.page_id == 0"
      :to="page.path"
      class="nav-link">
             <i :class="page.icon"></i>
-            <span>{{ page.page }}</span>
+            <span>{{ $t(page.page) }}</span>
         </RouterLink>
 </li>
     <!-- Divider -->

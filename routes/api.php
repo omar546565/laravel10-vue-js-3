@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\api\AuthController;
+use App\Http\Controllers\api\LangController;
 use App\Http\Controllers\api\PageController;
 use App\Http\Controllers\api\PermissionController;
 use App\Http\Controllers\api\RoleController;
@@ -48,5 +49,11 @@ Route::group(['middleware'=>['auth:sanctum']], function(){
 
     Route::get('/get-permissions/{roleId}', [PermissionController::class, 'getPermissionRoleId']);
     Route::post('/update-permission', [PermissionController::class, 'store']);
+
+    Route::get('/get-i18n', [LangController::class, 'getI18n'])->name('getI18n');
+    Route::post('/add-langs', [LangController::class, 'addLangs'])->name('add.langs');
+    Route::get('/langs/{key}', [LangController::class, 'LangsKey'])->name('key.langs');
+    Route::get('/langs', [LangController::class, 'Langs'])->name('get.langs');
+
 
 });

@@ -33,7 +33,7 @@ const addRole = () => {
 const getRoles= () =>{
     axios.get(`get-roles`).then((res) => {
         Roles.value = res.data.roles;
-        notify(res.data.message);
+        // notify(res.data.message);
     });
 }
 const goBack = (event) => {

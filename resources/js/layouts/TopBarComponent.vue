@@ -3,6 +3,17 @@ import { ref } from "vue";
 const toggled = ref("");
 const emit = defineEmits(["emitToggled"]);
 const props = defineProps(["user"]);
+const lang  = localStorage.getItem("lang");
+
+const changeLanguage = (lang) => {
+  localStorage.setItem("lang", lang);
+  if (lang == "ar") {
+    localStorage.setItem("direction", "rtl");
+  } else {
+    localStorage.setItem("direction", "ltr");
+  }
+  window.location.reload();
+};
 const sidebarToggleTop = () => {
   if (toggled.value === "") {
     toggled.value = "toggled";
@@ -99,6 +110,86 @@ const logout = () => {
         </div>
       </li>
 
+      <!-- Nav Item - Langs -->
+      <li class="nav-item dropdown no-arrow mx-1">
+        <a
+          class="nav-link dropdown-toggle"
+          href="#"
+          id="LangsDropdown"
+          role="button"
+          data-toggle="dropdown"
+          aria-haspopup="true"
+          aria-expanded="false"
+        >
+        <i class="fas fa-language fa-fw"></i>
+          <!-- Counter - Langs -->
+          <span class="badge badge-danger badge-counter">
+            {{ lang}}
+
+          </span>
+        </a>
+        <!-- Dropdown - Langs -->
+        <div
+          class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
+          aria-labelledby="LangsDropdown"
+        >
+          <h6 class="dropdown-header">Langs  </h6>
+          <a class="dropdown-item d-flex align-items-center" @click="changeLanguage('ar')" >
+            <div class="mr-3">
+              <div class="icon-circle bg-primary">
+                 <h4>ar</h4>
+              </div>
+            </div>
+            <div>
+
+              <span class="font-weight-bold"
+                >{{ $t('arabic') }}</span
+              >
+            </div>
+          </a>
+          <a class="dropdown-item d-flex align-items-center" @click="changeLanguage('en')" >
+            <div class="mr-3">
+              <div class="icon-circle bg-primary">
+                 <h4>en</h4>
+              </div>
+            </div>
+            <div>
+
+              <span class="font-weight-bold"
+                >{{ $t('english') }}</span
+              >
+            </div>
+          </a>
+          <a class="dropdown-item d-flex align-items-center" @click="changeLanguage('tr')" >
+            <div class="mr-3">
+              <div class="icon-circle bg-primary">
+                 <h4>tr</h4>
+              </div>
+            </div>
+            <div>
+
+              <span class="font-weight-bold"
+                >{{ $t('Turkish') }}</span
+              >
+            </div>
+          </a>
+          <a class="dropdown-item d-flex align-items-center" @click="changeLanguage('fr')" >
+            <div class="mr-3">
+              <div class="icon-circle bg-primary">
+                 <h4>fr</h4>
+              </div>
+            </div>
+            <div>
+
+              <span class="font-weight-bold"
+                >{{ $t('French') }}</span
+              >
+            </div>
+          </a>
+
+
+        </div>
+      </li>
       <!-- Nav Item - Alerts -->
       <li class="nav-item dropdown no-arrow mx-1">
         <a

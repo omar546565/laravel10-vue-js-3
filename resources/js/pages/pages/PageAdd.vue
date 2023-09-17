@@ -4,9 +4,9 @@ import { toast } from "vue3-toastify";
 import { watchEffect } from '@vue/runtime-core';
 
 const emit = defineEmits(['goBack']);
-const props = defineProps(["page"]);
+const props = defineProps(["page","Pages"]);
 
-
+const Pages =ref([]);
 
 const notify = (message) => {
   toast.success(message, {
@@ -52,6 +52,18 @@ const createPage = () => {
 watchEffect(()=>{
   if(props.page){
     item.value = props.page
+  }else{
+    item.value = {
+        page:'',
+        path:'#',
+        icon:'fa fa-file-text-o',
+        page_id:0,
+        order:0,
+    }
+  }
+  if(props.Pages){
+    Pages.value =props.Pages
+    Pages.value.push({id:0,page:'no page'})
   }
 });
 </script>
@@ -90,8 +102,11 @@ watchEffect(()=>{
                                     placeholder="  icon">
                             </div>
                             <div class="col-sm-6 mb-3 mb-sm-0">
-                                <input type="number" v-model="item.page_id" class="form-control form-control-page"
-                                    placeholder="page_id">
+
+                                    <select class="form-control" v-model="item.page_id">
+                                <option v-for="Page in Pages" :key="Page.id" :value="Page.id">
+                                    {{Page.page}} </option>
+                               </select>
                             </div>
 
                         </div>

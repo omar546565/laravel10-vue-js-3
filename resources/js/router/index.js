@@ -54,6 +54,12 @@ const router = createRouter({
             component: () => import('../pages/roles/Role.vue')
         },
         {
+            path: '/translates',
+            name: 'Translates',
+            component: () => import('../pages/translates/translate.vue')
+        },
+
+        {
             path: '/profile',
             name: 'Profile',
             component: () => import('../pages/Profile.vue')

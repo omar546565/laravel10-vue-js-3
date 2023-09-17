@@ -33,7 +33,7 @@ const addPage = () => {
 const getPages= () =>{
     axios.get(`get-pages`).then((res) => {
         Pages.value = res.data.pages;
-        notify(res.data.message);
+        // notify(res.data.message);
     });
 }
 const goBack = (event) => {
@@ -59,7 +59,7 @@ const chickPermission=(page,per)=>{
 </script>
 <template>
   <div>
-    <PageAdd v-if="isEdit"  @goBack="goBack($event)" :page="page" />
+    <PageAdd v-if="isEdit"  @goBack="goBack($event)" :page="page" :Pages="Pages" />
     <div v-if="!isEdit" class="card o-hidden border-0 shadow-lg my-5">
       <div class="card-header">
         <h4 class="card-title" > page table</h4>

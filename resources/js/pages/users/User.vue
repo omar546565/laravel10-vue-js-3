@@ -33,7 +33,7 @@ const addUser = () => {
 const getUsers= (page) =>{
     axios.get(`index-users?page=${page}`).then((res) => {
         Users.value = res.data.users.data;
-        notify(res.data.message);
+        // notify(res.data.message);
     });
 }
 const goBack = (event) => {

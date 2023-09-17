@@ -30,7 +30,7 @@ const notifyError = (message) => {
 const getPermissions= () =>{
     axios.get(`get-permissions/${role_id.value}`).then((res) => {
         Permissions.value = res.data.permissions;
-        notify(res.data.message);
+        // notify(res.data.message);
     });
 }
 const getPermission= (page_id,role_id,per) =>{
@@ -48,7 +48,7 @@ let permission = Permissions.value.find(
 const getRoles= () =>{
     axios.get(`get-roles`).then((res) => {
         Roles.value = res.data.roles;
-        notify(res.data.message);
+        // notify(res.data.message);
     });
 
 }
@@ -61,7 +61,7 @@ const getPages= () =>{
 const updatePermission = (page_id,role_id,permission,event)=>{
     if(role_id==0){
         toast.error('Please select role', {
-            autoClose: 3000,
+            autoClose: 500,
             position: toast.POSITION.TOP_CENTER,
           });
           return false;
@@ -80,7 +80,11 @@ const updatePermission = (page_id,role_id,permission,event)=>{
               });
               return false;
         }
-        notify(res.data.message);
+        toast.success(res.data.message, {
+    autoClose: 100,
+    position: toast.POSITION.TOP_CENTER,
+  });
+
     }).catch((err) => {
         notifyError(err.response.data.message);
     });
@@ -113,10 +117,12 @@ const chickPermission=(page,per)=>{
       <div class="card-header">
         <h4 class="card-title" > permission table</h4>
         <h4 class="card-title" >
+            <div class="col-sm-3 mb-3 mb-sm-0" >
             <select  v-model="role_id" class="form-control " @change="getPermissions"   >
                 <option value="0">Select Role</option>
                 <option v-for="role in Roles" :key="role.id" :value="role.id">{{ role.name_role }}</option>
               </select>
+            </div>
         </h4>
 
       </div>
